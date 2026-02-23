@@ -1,4 +1,4 @@
-name: "Open Review (OPENAI COMPATIBLE)"
+name: "AI Open Review (OPENAI COMPATIBLE)"
 description: "Automated code review using LLM for pull requests with inline comments like GitHub Copilot"
 author: "Niklas Schäffer"
 
