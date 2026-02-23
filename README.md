@@ -1,4 +1,4 @@
-# AI Code Review Action
+# Open Review - AI-Powered Code Review for GitHub
 
 [![GitHub Marketplace](https://img.shields.io/badge/Markplace-Open%20Review-blue)](https://github.com/marketplace/actions/open-review)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
@@ -24,7 +24,7 @@ An intelligent GitHub Action that automatically reviews pull requests using Larg
 Create `.github/workflows/ai-code-review.yml`:
 
 ```yaml
-name: AI Code Review
+name: Open Review
 
 on:
   pull_request:
@@ -83,7 +83,7 @@ Go to **Settings > Secrets and variables > Actions** and add:
 ### Basic Usage with OpenAI
 
 ```yaml
-- name: AI Code Review
+- name: Open Review - Code Review
   uses: nx-solutions-ug/ai-code-review-action@v1
   with:
     LLM_BASE_URL: 'https://api.openai.com/v1'
@@ -95,7 +95,7 @@ Go to **Settings > Secrets and variables > Actions** and add:
 ### Security-Focused Review
 
 ```yaml
-- name: Security Review
+- name: Open Review - Security Review
   uses: nx-solutions-ug/ai-code-review-action@v1
   with:
     LLM_BASE_URL: 'https://api.openai.com/v1'
@@ -108,7 +108,7 @@ Go to **Settings > Secrets and variables > Actions** and add:
 ### Using Anthropic Claude
 
 ```yaml
-- name: AI Code Review with Claude
+- name: Open Review - Code Review with Claude
   uses: nx-solutions-ug/ai-code-review-action@v1
   with:
     LLM_BASE_URL: 'https://api.anthropic.com/v1'
@@ -120,7 +120,7 @@ Go to **Settings > Secrets and variables > Actions** and add:
 ### Using Local LLM (Ollama)
 
 ```yaml
-- name: AI Code Review with Local LLM
+- name: Open Review - Code Review with Local LLM
   uses: nx-solutions-ug/ai-code-review-action@v1
   with:
     LLM_BASE_URL: 'http://localhost:11434/v1'
@@ -132,7 +132,7 @@ Go to **Settings > Secrets and variables > Actions** and add:
 ### Custom Prompt
 
 ```yaml
-- name: AI Code Review with Custom Prompt
+- name: Open Review - Code Review with Custom Prompt
   uses: nx-solutions-ug/ai-code-review-action@v1
   with:
     LLM_BASE_URL: 'https://api.openai.com/v1'
@@ -162,7 +162,7 @@ Go to **Settings > Secrets and variables > Actions** and add:
 ### Exclude Specific Files
 
 ```yaml
-- name: AI Code Review
+- name: Open Review - Code Review
   uses: nx-solutions-ug/ai-code-review-action@v1
   with:
     LLM_BASE_URL: 'https://api.openai.com/v1'
