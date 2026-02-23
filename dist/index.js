@@ -36654,7 +36654,7 @@ ${overallSummary}
             warnings > 0 ? `🟡 ${warnings} warnings` : "",
             suggestions > 0 ? `💡 ${suggestions} suggestions` : "",
         ].filter(Boolean);
-        return `## 🤖 Open Review
+        return `## Open Review
 
 ${summary}
 
