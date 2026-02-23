@@ -349,7 +349,7 @@ ${overallSummary}
       suggestions > 0 ? `💡 ${suggestions} suggestions` : "",
     ].filter(Boolean);
 
-    return `## 🤖 Open Review
+    return `## Open Review
 
 ${summary}
 
