@@ -1,6 +1,6 @@
 # AI Code Review Action
 
-[![GitHub Marketplace](https://img.shields.io/badge/Markplace-AI%20Code%20Review-blue)](https://github.com/marketplace/actions/ai-code-review)
+[![GitHub Marketplace](https://img.shields.io/badge/Markplace-Open%20Review-blue)](https://github.com/marketplace/actions/open-review)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 An intelligent GitHub Action that automatically reviews pull requests using Large Language Models (LLMs). Posts inline comments like GitHub Copilot, helping you catch issues before they reach production.
@@ -41,7 +41,7 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: AI Code Review
-        uses: your-username/ai-code-review-action@v1
+        uses: nx-solutions-ug/ai-code-review-action@v1
         with:
           LLM_BASE_URL: 'https://api.openai.com/v1'
           LLM_MODEL: 'gpt-4o'
@@ -84,7 +84,7 @@ Go to **Settings > Secrets and variables > Actions** and add:
 
 ```yaml
 - name: AI Code Review
-  uses: your-username/ai-code-review-action@v1
+  uses: nx-solutions-ug/ai-code-review-action@v1
   with:
     LLM_BASE_URL: 'https://api.openai.com/v1'
     LLM_MODEL: 'gpt-4o'
@@ -96,7 +96,7 @@ Go to **Settings > Secrets and variables > Actions** and add:
 
 ```yaml
 - name: Security Review
-  uses: your-username/ai-code-review-action@v1
+  uses: nx-solutions-ug/ai-code-review-action@v1
   with:
     LLM_BASE_URL: 'https://api.openai.com/v1'
     LLM_MODEL: 'gpt-4o'
@@ -109,7 +109,7 @@ Go to **Settings > Secrets and variables > Actions** and add:
 
 ```yaml
 - name: AI Code Review with Claude
-  uses: your-username/ai-code-review-action@v1
+  uses: nx-solutions-ug/ai-code-review-action@v1
   with:
     LLM_BASE_URL: 'https://api.anthropic.com/v1'
     LLM_MODEL: 'claude-3-5-sonnet-20241022'
@@ -121,7 +121,7 @@ Go to **Settings > Secrets and variables > Actions** and add:
 
 ```yaml
 - name: AI Code Review with Local LLM
-  uses: your-username/ai-code-review-action@v1
+  uses: nx-solutions-ug/ai-code-review-action@v1
   with:
     LLM_BASE_URL: 'http://localhost:11434/v1'
     LLM_MODEL: 'codellama'
@@ -133,7 +133,7 @@ Go to **Settings > Secrets and variables > Actions** and add:
 
 ```yaml
 - name: AI Code Review with Custom Prompt
-  uses: your-username/ai-code-review-action@v1
+  uses: nx-solutions-ug/ai-code-review-action@v1
   with:
     LLM_BASE_URL: 'https://api.openai.com/v1'
     LLM_MODEL: 'gpt-4o'
@@ -163,7 +163,7 @@ Go to **Settings > Secrets and variables > Actions** and add:
 
 ```yaml
 - name: AI Code Review
-  uses: your-username/ai-code-review-action@v1
+  uses: nx-solutions-ug/ai-code-review-action@v1
   with:
     LLM_BASE_URL: 'https://api.openai.com/v1'
     LLM_MODEL: 'gpt-4o'
@@ -239,7 +239,7 @@ The action includes robust error handling:
 
 ```bash
 # Clone the repository
-git clone https://github.com/your-username/ai-code-review-action.git
+git clone https://github.com/nx-solutions-ug/ai-code-review-action.git
 cd ai-code-review-action
 
 # Install dependencies
@@ -341,10 +341,10 @@ MIT License - see [LICENSE](LICENSE) file for details.
 
 ## Support
 
-- 📖 [Documentation](https://github.com/your-username/ai-code-review-action/wiki)
-- 🐛 [Issue Tracker](https://github.com/your-username/ai-code-review-action/issues)
-- 💬 [Discussions](https://github.com/your-username/ai-code-review-action/discussions)
+- 📖 [Documentation](https://github.com/nx-solutions-ug/ai-code-review-action/wiki)
+- 🐛 [Issue Tracker](https://github.com/nx-solutions-ug/ai-code-review-action/issues)
+- 💬 [Discussions](https://github.com/nx-solutions-ug/ai-code-review-action/discussions)
 
 ---
 
-Made with ❤️ by [Your Name](https://github.com/your-username)
+Made with ❤️ by [NX Solutions UG](https://github.com/nx-solutions-ug)

@@ -1,5 +1,5 @@
 {
-  "name": "ai-code-review-action",
+  "name": "open-review",
   "version": "1.0.0",
   "description": "AI-powered code review GitHub Action with inline comments",
   "main": "dist/index.js",
@@ -20,7 +20,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/your-username/ai-code-review-action.git"
+    "url": "git+https://github.com/nx-solutions-ug/ai-code-review-action.git"
   },
   "keywords": [
     "github-action",
