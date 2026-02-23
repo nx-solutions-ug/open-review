@@ -252,11 +252,17 @@ ${overallSummary}
         ? `**${issue.category.toUpperCase()}**`
         : "";
 
+      // Validate suggestion - it should be actual code, not advice
+      const isValidSuggestion = issue.suggestion && this.isValidCodeSuggestion(issue.suggestion);
+      if (issue.suggestion && !isValidSuggestion) {
+        logger.debug(`Filtering out non-code suggestion for ${filePath}:${issue.line}`);
+      }
+
       const body = [
         `${severityEmoji} ${categoryLabel}`,
         "",
         issue.message,
-        issue.suggestion
+        isValidSuggestion
           ? `\n**Suggestion:**\n\`\`\`suggestion\n${issue.suggestion}\n\`\`\``
           : "",
       ]
@@ -327,6 +333,83 @@ ${overallSummary}
       default:
         return "📝";
     }
+  }
+
+  /**
+   * Check if a suggestion is valid code (not advice/explanation)
+   */
+  private isValidCodeSuggestion(suggestion: string): boolean {
+    if (!suggestion || suggestion.trim().length === 0) {
+      return false;
+    }
+
+    // List of words/phrases that indicate it's advice, not code
+    const adviceIndicators = [
+      'consider',
+      'should',
+      'could',
+      'would',
+      'might',
+      'ensure',
+      'verify',
+      'check',
+      'pin to',
+      'use ',
+      'add ',
+      'remove ',
+      'replace ',
+      'e.g.,',
+      'for example',
+      'you can',
+      'it is',
+      'this is',
+      'if you',
+      'when you',
+    ];
+
+    const lowerSuggestion = suggestion.toLowerCase();
+    
+    // If it contains advice words, it's not valid code
+    for (const indicator of adviceIndicators) {
+      if (lowerSuggestion.includes(indicator)) {
+        return false;
+      }
+    }
+
+    // Valid code suggestions should look like actual code
+    // They typically contain syntax characters
+    const codeIndicators = [
+      '=',
+      ':',
+      ';',
+      '{',
+      '}',
+      '(',
+      ')',
+      '[',
+      ']',
+      '@',
+      '#',
+      '-',
+      '/',
+      '.',
+      ',',
+      '|',
+      '&',
+      '*',
+      '+',
+      '<',
+      '>',
+      '!',
+      '?',
+      '%',
+      '$',
+    ];
+
+    const hasCodeSyntax = codeIndicators.some(char => suggestion.includes(char));
+    
+    // Must have some code-like syntax and not be too long (explanations tend to be longer)
+    return hasCodeSyntax && suggestion.length < 200;
   }
 
   /**
