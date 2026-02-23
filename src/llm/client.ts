@@ -95,6 +95,12 @@ export class LLMClient {
     prTitle?: string,
     prDescription?: string
   ): string {
+    // Add line numbers to the diff for clarity
+    const numberedDiff = diff.split('\n').map((line, index) => {
+      const lineNum = index + 1;
+      return `${lineNum.toString().padStart(4, ' ')}: ${line}`;
+    }).join('\n');
+
     const context = [
       `File: ${filePath}`,
       prTitle ? `PR Title: ${prTitle}` : '',
@@ -105,10 +111,13 @@ export class LLMClient {
 
     return `${context}
 
-Code Changes (diff):
-\`\`\`diff
-${diff}
-\`\`\`
+Code Changes (diff with line numbers):
+${numberedDiff}
+
+IMPORTANT: The line numbers shown above are for reference only. When providing feedback:
+- The "line" field should be the actual line number in the new file (counting added lines only)
+- If you suggest a fix, the suggestion MUST replace the exact line you're commenting on
+- Example: If commenting on line 18 (timeout-minutes: 10), the suggestion should be a replacement for that specific line
 
 Please review the code changes above and provide feedback in the specified JSON format.`;
   }

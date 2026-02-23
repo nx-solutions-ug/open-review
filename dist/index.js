@@ -35722,11 +35722,14 @@ Output Format (JSON):
 CRITICAL RULES for suggestions:
 - ONLY provide a suggestion when you can write the EXACT corrected code
 - NEVER suggest removing valid code or lines that are correct
-- If the issue is about adding something (like a comment, pinning a version), show the COMPLETE corrected line
+- The suggestion MUST be a replacement for the specific line you're commenting on
+- Example: If commenting on line with "timeout-minutes: 10", the suggestion should replace that exact line
+- If the issue is about a different line, comment on that line instead
 - If you're unsure about the exact fix, leave suggestion empty and just explain in message
-- Example GOOD suggestion: "uses: nx-solutions-ug/ai-code-review-action@abc123..." 
+- **MUST BE SINGLE LINE** - GitHub suggestions replace entire lines, multi-line suggestions will break the file
+- Example GOOD suggestion for "uses: action@v1": "uses: action@abc123..."
 - Example BAD suggestion: "Pin to a specific commit SHA..." (this is just text, not code)
-- Example BAD suggestion: Removing the 'steps:' line - this is valid YAML structure
+- Example BAD suggestion: Suggesting "runs-on: ubuntu-latest" when commenting on "timeout-minutes: 10"
 
 DO NOT comment on:
 - Line ordering (e.g., suggesting to move timeout-minutes before runs-on)
@@ -36320,6 +36323,11 @@ class LLMClient {
      * Build the review prompt for a specific file
      */
     buildReviewPrompt(filePath, diff, prTitle, prDescription) {
+        // Add line numbers to the diff for clarity
+        const numberedDiff = diff.split('\n').map((line, index) => {
+            const lineNum = index + 1;
+            return `${lineNum.toString().padStart(4, ' ')}: ${line}`;
+        }).join('\n');
         const context = [
             `File: ${filePath}`,
             prTitle ? `PR Title: ${prTitle}` : '',
@@ -36329,10 +36337,13 @@ class LLMClient {
             .join('\n');
         return `${context}
 
-Code Changes (diff):
-\`\`\`diff
-${diff}
-\`\`\`
+Code Changes (diff with line numbers):
+${numberedDiff}
+
+IMPORTANT: The line numbers shown above are for reference only. When providing feedback:
+- The "line" field should be the actual line number in the new file (counting added lines only)
+- If you suggest a fix, the suggestion MUST replace the exact line you're commenting on
+- Example: If commenting on line 18 (timeout-minutes: 10), the suggestion should be a replacement for that specific line
 
 Please review the code changes above and provide feedback in the specified JSON format.`;
     }
@@ -36593,18 +36604,13 @@ ${overallSummary}
             const categoryLabel = issue.category
                 ? `**${issue.category.toUpperCase()}**`
                 : "";
-            // Validate suggestion - it should be actual code, not advice
-            const isValidSuggestion = issue.suggestion && this.isValidCodeSuggestion(issue.suggestion);
-            if (issue.suggestion && !isValidSuggestion) {
-                logger_1.logger.debug(`Filtering out non-code suggestion for ${filePath}:${issue.line}`);
-            }
+            // Note: We don't render suggestions because LLMs are unreliable at generating
+            // correct line-specific suggestions. They often identify wrong lines or suggest
+            // changes that don't match the target line, which can break the code.
             const body = [
                 `${severityEmoji} ${categoryLabel}`,
                 "",
                 issue.message,
-                isValidSuggestion
-                    ? `\n**Suggestion:**\n\`\`\`suggestion\n${issue.suggestion}\n\`\`\``
-                    : "",
             ]
                 .filter(Boolean)
                 .join("\n");
@@ -36663,76 +36669,6 @@ ${overallSummary}
             default:
                 return "📝";
         }
-    }
-    /**
-     * Check if a suggestion is valid code (not advice/explanation)
-     */
-    isValidCodeSuggestion(suggestion) {
-        if (!suggestion || suggestion.trim().length === 0) {
-            return false;
-        }
-        // List of words/phrases that indicate it's advice, not code
-        const adviceIndicators = [
-            'consider',
-            'should',
-            'could',
-            'would',
-            'might',
-            'ensure',
-            'verify',
-            'check',
-            'pin to',
-            'use ',
-            'add ',
-            'remove ',
-            'replace ',
-            'e.g.,',
-            'for example',
-            'you can',
-            'it is',
-            'this is',
-            'if you',
-            'when you',
-        ];
-        const lowerSuggestion = suggestion.toLowerCase();
-        // If it contains advice words, it's not valid code
-        for (const indicator of adviceIndicators) {
-            if (lowerSuggestion.includes(indicator)) {
-                return false;
-            }
-        }
-        // Valid code suggestions should look like actual code
-        // They typically contain syntax characters
-        const codeIndicators = [
-            '=',
-            ':',
-            ';',
-            '{',
-            '}',
-            '(',
-            ')',
-            '[',
-            ']',
-            '@',
-            '#',
-            '-',
-            '/',
-            '.',
-            ',',
-            '|',
-            '&',
-            '*',
-            '+',
-            '<',
-            '>',
-            '!',
-            '?',
-            '%',
-            '$',
-        ];
-        const hasCodeSyntax = codeIndicators.some(char => suggestion.includes(char));
-        // Must have some code-like syntax and not be too long (explanations tend to be longer)
-        return hasCodeSyntax && suggestion.length < 200;
     }
     /**
      * Format the review body with summary and statistics
