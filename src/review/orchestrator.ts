@@ -62,8 +62,6 @@ export class ReviewOrchestrator {
       suggestionCount: number;
     }> = [];
 
-    let errors = 0;
-
     for (const file of filesToReview) {
       // Skip removed files
       if (file.status === 'removed' || !file.patch) {
@@ -88,7 +86,6 @@ export class ReviewOrchestrator {
           suggestionCount: result.suggestionCount,
         });
       } catch (error) {
-        errors++;
         logger.error(`Failed to review ${file.filename}: ${error}`);
         // Continue with other files
       }

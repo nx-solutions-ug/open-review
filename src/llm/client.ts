@@ -126,7 +126,7 @@ Please review the code changes above and provide feedback in the specified JSON 
       }
 
       // Validate and filter reviews
-      const validReviews = parsed.reviews.filter((review: any) => {
+      const validReviews = parsed.reviews.filter((review: ReviewIssue) => {
         if (typeof review.line !== 'number') {
           logger.debug(`Skipping review without line number in ${filePath}`);
           return false;
